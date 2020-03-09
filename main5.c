@@ -8,17 +8,18 @@ int main(){
 	int threeVowels = 0;
 	int consecutiveChars = 0;
 	int vowelsCount = 0;
-
+	int stringForbidden = 0;
+	int i = 0;
+	int j = 0;
 	data2read = fopen("data5.txt","r");
 
 	if(data2read)
 	{
 		while (fgets(lastline,20,data2read) != NULL)
 		{
-			//printf("%s",lastline);
 
 
-			for (int i = 0; lastline[i]!='\0'; i++)
+			for (i = 0; lastline[i]!='\0'; i++)
 			{	
 				if (lastline[i+1] == lastline[i])
 				{
@@ -28,54 +29,72 @@ int main(){
 
 			if (consecutiveChars == 0)
 			{
-				//printf("CChars BAD\t");
+				printf("CChars BAD\t");
 			}
 			else
 			{
-				//printf("CChars OK\t");
+				printf("CChars OK\t");
 			}
 
 
-
-			for (int j = 0;lastline[j]!='\0';j++)
+			for (j = 0;lastline[j]!='\0';j++)
 			{
 				if (lastline[j] == 'a' || lastline[j] == 'e' || \
 				lastline[j] == 'i' || lastline[j] == 'o' || \
 				lastline[j] == 'u')
+				{
 					vowelsCount +=1;
+				}
 			}
+
 
 			if (vowelsCount >= 3) 
 			{
-			
 				threeVowels = 1;
-				//printf("Vowels OK\t");
+				printf("Vowels OK\t");
 			}
 			else
 			{
-				//printf("Vowels BAD\t");
-				printf("%d\t %s",compteur,lastline);
+				printf("Vowels BAD\t");
+				//printf("%d\t %s",compteur,lastline);
 			}
 
 			vowelsCount = 0;
 
-
-			if ((strstr(lastline,"ab") || strstr(lastline,"cd") \
-						|| strstr(lastline,"pq") \
-						|| strstr(lastline,"xy") == NULL) && \
-				threeVowels && consecutiveChars)
+			
+			if ((strstr(lastline,"ab") != NULL) 
+						|| (strstr(lastline,"cd") != NULL) \
+						|| (strstr(lastline,"pq") != NULL)\
+						|| (strstr(lastline,"xy") != NULL))
 			{
-				compteur++;
-				//printf("OK\n");
-				//	break;
+				stringForbidden = 1;
+				printf("Expression interdite\t");
 			}
 			else
-				//printf("NOT OK\n");
+			{ 
+				stringForbidden = 0;
+				printf("Expression OK   \t");
+			}
+
+
+			if (!stringForbidden && consecutiveChars && threeVowels)
+			{
+				compteur++;
+				printf("Ligne Valide\t%s",lastline);
+				//	break;
+			}
+
+			else
+			{
+				printf("Mauvaise ligne\t%s",lastline);
+			}
 
 			threeVowels = 0;
 			consecutiveChars = 0;
+			stringForbidden = 0;
 		}
 	}
+
 	else
 	{
 		printf("fichier introuvable\n");
