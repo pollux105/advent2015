@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 FILE *data2read;
 char dataline[50];
@@ -149,40 +150,45 @@ int main()
 		while ((fgets(dataline,sizeof(dataline)/sizeof(char),data2read ))!=NULL)
 		{
 			printf("%s\n",dataline);
+			int i = 0;
+			int coord[4];
+			char *p = dataline;
+			while(*p != 10)
+			{
+				printf("%d\n",p);
+				if (isdigit(*p))
+				{
+					coord[i] = strtol(p,&p,10);
+					printf("%d\t",coord[i]);
+					i++;
+				}
+				else
+				{
+					p++;
+				}
+
+			}
+
+			
 			if(strstr(dataline,"on")!=NULL)
 			{
-				char *coord = malloc(3);
-				strncpy(coord,dataline+8,3); 	corner1.Xpos = atoi(coord);
-				strncpy(coord,dataline+12,3); 	corner1.Ypos = atoi(coord);
-				strncpy(coord,dataline+24,3);	corner2.Xpos = atoi(coord);
-				strncpy(coord,dataline+28,3);	corner2.Ypos = atoi(coord);
 				nbOn++;
-				printf("%d\t%d\t%d\t%d\n",corner1.Xpos,corner1.Ypos, corner2.Xpos,corner2.Ypos);
-				turnOn(corner1.Xpos,corner1.Ypos,corner2.Xpos,corner2.Ypos);
+				printf("%d\t%d\t%d\t%d\n",coord[1],coord[2],coord[3],coord[4]);
+				turnOn(coord[1],coord[2],coord[3],coord[4]);
 			}
 
 			if(strstr(dataline,"off")!=NULL)
 			{
-				char *coord = malloc(3);
-				strncpy(coord,dataline+9,3); 	corner1.Xpos = atoi(coord);
-				strncpy(coord,dataline+13,3); 	corner1.Ypos = atoi(coord);
-				strncpy(coord,dataline+25,3);	corner2.Xpos = atoi(coord);
-				strncpy(coord,dataline+29,3);	corner2.Ypos = atoi(coord);
 				nbOff++;
-				printf("%d\t%d\t%d\t%d\n",corner1.Xpos,corner1.Ypos, corner2.Xpos,corner2.Ypos);
-				turnOff(corner1.Xpos,corner1.Ypos,corner2.Xpos,corner2.Ypos);
+				printf("%d\t%d\t%d\t%d\n",coord[1],coord[2],coord[3],coord[4]);
+				turnOff(coord[1],coord[2],coord[3],coord[4]);
 			}
 
 			if(strstr(dataline,"toggle")!=NULL)
 			{	
-				char *coord = malloc(3);
-				strncpy(coord,dataline+7,3); 	corner1.Xpos = atoi(coord);
-				strncpy(coord,dataline+11,3); 	corner1.Ypos = atoi(coord);
-				strncpy(coord,dataline+23,3);	corner2.Xpos = atoi(coord);
-				strncpy(coord,dataline+27,3);	corner2.Ypos = atoi(coord);
 				nbToggle++;
-				printf("%d\t%d\t%d\t%d\n",corner1.Xpos,corner1.Ypos, corner2.Xpos,corner2.Ypos);
-				toggle(corner1.Xpos,corner1.Ypos,corner2.Xpos,corner2.Ypos);
+				printf("%d\t%d\t%d\t%d\n",coord[1],coord[2],coord[3],coord[4]);
+				toggle(coord[1],coord[2],coord[3],coord[4]);
 			}
 
 
