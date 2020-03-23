@@ -1,21 +1,15 @@
-#include<stdio.h>
-#include<ctype.h>
-#include<stdlib.h>
-void main(int argc,char *argv[])
-{
-	char *str ="ab234cid*(s349*(20kd", *ptr = str;
-	while (*ptr) { // While there are more characters to process...
-		    if ( isdigit(*ptr) )
-		    {
-			            // Found a number
-		  	  int val = (int)strtol(ptr,&ptr, 10); // Read number
-			  printf("%d\n", val); // and print it.
-		    } 
-		    else
-		    {
-		    // Otherwise, move on to the next character.
-			    ptr++;
-		    }
-      	}
-}
+#include <stdio.h>
+#include <limits.h>
 
+
+int main(void)
+{
+	unsigned short i = 123;
+	unsigned short j = 0;
+	
+	j = ~i;
+	printf("%d\t%d\n",i,~i);
+
+
+  return 0;
+}
