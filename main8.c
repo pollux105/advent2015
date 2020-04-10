@@ -62,7 +62,7 @@ int i;
 int part;
 
 
-void main(int argc, char * argv[])
+int main(int argc, char * argv[])
 {
 
 	FILE* data2read;
@@ -208,7 +208,7 @@ void main(int argc, char * argv[])
 	break;
 	}
 
-
-	}
+	return 0;
+}
 
 
