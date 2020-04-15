@@ -15,8 +15,10 @@ char *Villes[100];
 char *VillesUniques[50];
 int nb_villes = 1; //la première ville ne peut pas être comparée à elle même.
 int nb_lignes;
+int distance_min = 10000;
+int distance_max = 0;
 
-int initTravels(struct Travel *Tableau)
+void initTravels(struct Travel *Tableau)
 {
 	int i;
 	for (i=0; i<50; i++)
@@ -41,9 +43,6 @@ void permute(char *a, int l, int r)
    	int compteur = 0;
 	int x;
 	int y;
-	int nb_chemins = 0;
-	char shortest_chemin[50];
-	int static distance_min = 0;
 	int distance = 0;
 	int comp1 = 0;			//comp1 = 1 si les deux villes comparées sont équivalentes;
 	int comp2 = 0;			//comp2 = 1 si les deux villes comparées sont équivalentes;
@@ -51,17 +50,13 @@ void permute(char *a, int l, int r)
 	int comp4 = 0;
 	if (l == r)
 	{
-		printf("%s\n", a);
+		//printf("%s\n", a);
 		
 		//calcul distance
 		x = 0; y = 0;
 		distance = 0;
 		while(x<strlen(a)-1)
 		{
-			//printf("LIGNE _________ ville[x+1] = %s\n",VillesUniques[a[x+1]-'0']);
-			//printf("LIGNE _________ ville[x+1] = %s\n",VillesUniques[a[x+1]-'0']);
-			//printf("Vil[%d] = %s  \tVil[%d] = %s  \t",x,VillesUniques[a[x]-'0'],x+1,VillesUniques[a[x+1]-'0']);
-			//printf("Ville[%d] = %s\n",x+1,VillesUniques[a[x+1]-'0']);
 			while(1)
 			{
 				comp1 = !strcmp(Travels[y].ville1,VillesUniques[a[x]-'0']);
@@ -77,17 +72,14 @@ void permute(char *a, int l, int r)
 				}
 				else 
 				{
-					//printf("y = %d\n",y++);
 					y++;
 				}
 			}
-		
-			//printf("distance = %d\n",distance);
    			x++;
 		}
-		distance_min = (distance > distance_min) ? distance : distance_min;
-		printf("distance max = %d\n",distance_min);
-
+		
+		distance_min = (distance < distance_min) ? distance : distance_min;
+		distance_max = (distance > distance_max) ? distance : distance_max;	
 	}
 	else
    	{ 
@@ -145,7 +137,6 @@ int main(int argc,char *argv[])
 	char dataline [100];
 	int i = 0;
 	int j = 0;
-
 
 	while (fgets(dataline,100,data2read) != NULL)
 	{
@@ -219,17 +210,11 @@ int main(int argc,char *argv[])
 	}
 	brassage[i]= '\0';
 	permute(brassage,0,strlen(brassage)-1);
-	
 
-	//	printf("shortest route = %d",min_distance);
-/*	
-	for (i=0;i<=nb_lignes;i++)
-	{
-		free(Villes[i]);
-	}
-*/
+	printf("distance min = %d\t",distance_min);
+	printf("distance max = %d\n",distance_max);
+
+		
 	return 0;
-
-
 }
 
