@@ -18,6 +18,8 @@ Starting with the digits in your puzzle input, apply this process 40 times. What
 #include <string.h>
 
 int x = 1;
+	char data[10000000] = "1113222113\0"; 	// Le passage en variable globale permet d'accéder à plus de mémoire
+	char test[10000000] = "\0";		// ceci permet d'accéder à la deuxième partie du test.
 
 void lookandsay(char *strout,char *strin)
 {
@@ -53,11 +55,9 @@ void lookandsay(char *strout,char *strin)
 
 int main(int argc, char *argv[])
 {
-	char data[1000000] = "1113222113\0";
-	char test[1000000] = "\0";
 	int x = 0;
 
-	for (x = 0; x < 40;x++)
+	for (x = 0; x < 50;x++)
 	{
 		printf("x = %d\n",x);
 		lookandsay(test,data);
