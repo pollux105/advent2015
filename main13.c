@@ -84,12 +84,12 @@ void gHEAP(int k,char tab[20][30])
 	int count = 0;
 	if (k == 1) 
 	{
-		printf("%d\t",nbArrangement);
+		//printf("%d\t",nbArrangement);
 		for (int i = 0;i<namesIncrementer;i++)
 		{
-			printf("%s\t",tab[i]);
+			//printf("%s\t",tab[i]);
 		}
-		printf("\t");
+		//printf("\t");
 		nbArrangement++;
 		
 		
@@ -98,25 +98,27 @@ void gHEAP(int k,char tab[20][30])
 		{
 			while(1)
 			{
+				
 				if ( (!strcmp(lovetab[y].names1,tab[j]) && !strcmp(lovetab[y].names2,tab[j+1]))
 					|| (!strcmp(lovetab[y].names2,tab[j]) && !strcmp(lovetab[y].names1,tab[j+1])))
 				{
-					printf("neighbour found : %s\t\%s\t",lovetab[y].names1,lovetab[y].names2);
-					lovePowerTemp += lovetab[y].lovepower;
-					printf("love count = %d\t love add = %d\n",lovetab[y].lovepower,lovePowerTemp);
 					
-					y=0;
+					
+					lovePowerTemp += lovetab[y].lovepower;
+					
 					count += 1;
+					y++;
+
 					if (count == 2)
 					{
 						count = 0;
+						y=0;
 						break;
 					}
+					
 				}
 				else
 				{
-					
-					//printf("... y = %d\n",y);
 					y++;
 				}
 			}
@@ -129,27 +131,27 @@ void gHEAP(int k,char tab[20][30])
 			if ( (!strcmp(lovetab[y].names1,tab[0]) && !strcmp(lovetab[y].names2,tab[namesIncrementer-1]))
 				|| (!strcmp(lovetab[y].names2,tab[0]) && !strcmp(lovetab[y].names1,tab[namesIncrementer-1])))
 			{
-				//printf("rotate found : %s\t\%s\n",lovetab[y].names1,lovetab[y].names2);
+				
 				lovePowerTemp += lovetab[y].lovepower;
-				y=0;
+				
+				count+=1;
+				y++;
+				
 				if (count == 2)
 				{
 					count = 0;
+					y=0;
 					break;
 				}
-				break;
+
 			}
 			else
 			{
-				
-				//printf("... y = %d\n",y);
 				y++;
 			}
 		}
+		
 		if (lovePowerTemp>lovePowerMax) lovePowerMax = lovePowerTemp;
-		printf("\ttemp = %d \t lovemax = %d\n",lovePowerTemp,lovePowerMax);
-		
-		
 		
 	}
 	else	
@@ -193,7 +195,7 @@ int main(int argc,char *argv[])
 		part = PART1;
 	}
 	
-	data2read = fopen("data13bis.txt","r");
+	data2read = fopen("data13.txt","r");
 	if(data2read == NULL) 
 	{
 		perror("Error in opening file");
@@ -201,11 +203,13 @@ int main(int argc,char *argv[])
 	}
 	
 	int i = 0;
+	int datalines = 0;
 	
 	while (fgets(dataline,XMAX,data2read) != NULL)
 	{
 		
 		char datastore[XMAX];
+		
 		int k = 0;
 		int sign = 1;
 		char *ptr;
@@ -236,12 +240,13 @@ int main(int argc,char *argv[])
 		}
 		lovetab[i].lovepower = strtol(datastore+k,&ptr,10)*sign;
 		i++;
+		
+		datalines++;
+
 	}
-	
 	
 	for (int j=0;j<i;j++)
 	{
-		printf("%s\t\t%s\t\t%d\n",lovetab[j].names1,lovetab[j].names2,lovetab[j].lovepower);
 		for (k=0;k<=j;k++)
 		{
 			if (strcmp(names[k],lovetab[j].names1) == 0)
@@ -252,24 +257,37 @@ int main(int argc,char *argv[])
 		if (stored == 0)
 		{
 			strcpy(names[namesIncrementer++],lovetab[j].names1);
-			printf("ajoute\n");
+			//printf("ajoute\n");
 		}
 		stored = 0;
 	}
 	
 	k=0;
 	
-	while (strcmp(names[k],""))
 	
+	//part 2
+	if (part==PART2)
 	{
-		printf("%d\t%s\n",k,names[k]);
-		k++;
+		strcpy(names[namesIncrementer++],"Pollux");
+		
+		
+ 		for (int z=0; z<namesIncrementer-1; z++)
+		{
+			strcpy(lovetab[datalines+z].names1,"Pollux");
+			strcpy(lovetab[datalines+z].names2,names[z]);
+			lovetab[datalines+z].lovepower = 0;
+			
+			strcpy(lovetab[datalines+z+namesIncrementer-1].names2,"Pollux");
+			strcpy(lovetab[datalines+z+namesIncrementer-1].names1,names[z]);
+			lovetab[datalines+z+namesIncrementer-1].lovepower = 0;
+			
+		}
 	}
-	printf("\n");
 	
 	
+	////
 	
-	gHEAP(k+1,names);
+	gHEAP(namesIncrementer,names);
 	printf("Amour final le plus eleve : %d\n",lovePowerMax);
 	return 0;
 }
