@@ -85,15 +85,12 @@ int running(struct reindeer tab[],int tabLength,int timer)
 	
 	for (i = 0;i<timer;i++)
 	{
-		//printf("\n%d\n",i);
 		for (j = 0 ; j<tabLength ; j++)
 		{
-			//printf("%d\t",j);
 			if (tab[j].energy>0)
 			{			
 				tab[j].race+=tab[j].speed;
 				tab[j].energy--;
-				//printf("on avance\t --> %d",tab[i].race);
 			}
 			else
 			{
@@ -123,12 +120,11 @@ int running(struct reindeer tab[],int tabLength,int timer)
 		printf("\n%s\t%d\n",tab[i].name,tab[i].race);
 	}
 	
-	
 	return distance;
 	
 }
 
-
+// fonction qui compte la course a points
 int runningPoint(struct reindeer tab[],int tabLength,int timer)
 {
 	int i = 0;
@@ -139,15 +135,12 @@ int runningPoint(struct reindeer tab[],int tabLength,int timer)
 	
 	for (i = 0;i<timer;i++)
 	{
-		
 		for (j = 0 ; j<tabLength ; j++)
 		{
-			
 			if (tab[j].energy>0)
 			{			
 				tab[j].race+=tab[j].speed;
 				tab[j].energy--;
-				//printf("on avance\t --> %d",tab[i].race);
 			}
 			else
 			{
@@ -157,8 +150,7 @@ int runningPoint(struct reindeer tab[],int tabLength,int timer)
 					tab[j].energy = tab[j].stamina;
 					tab[j].rest = 0;
 				}
-			}
-			
+			}	
 		}
 		
 		for (j= 0 ; j<tabLength ; j++)
@@ -175,20 +167,12 @@ int runningPoint(struct reindeer tab[],int tabLength,int timer)
 	
 	for (i = 0 ; i < tabLength ; i++)
 	{
-		
-		
 		if (tab[i].point > pointsMax) 
 		{
 			pointsMax = tab[i].point;
 		}
 	}
-	/*
-	for (i=0;i<tabLength;i++)
-	{
-		printf("\n%s\t%d\n",tab[i].name,tab[i].point);
-	}
-	*/
-	
+		
 	return pointsMax;
 }
 
@@ -206,11 +190,7 @@ int main(int argc, char *argv[])
 	int part = 0;
 	int nbReindeer = 0;
 	
-	if (argv[1] == NULL)
-	{
-		part = PART1;
-	}
-	else if (!strcmp(argv[1],"part1"))
+	if (argv[1] == NULL) || !strcmp(argv[1],"part1"))
 	{
 		part = PART1;
 	}
@@ -226,9 +206,7 @@ int main(int argc, char *argv[])
 	{
 		totalRunTime = strtol(argv[2],&ptr,10);
 	}
-	
-	
-	
+		
 	// init herd
 	for (i = 0; i<LMAX;i++)
 	{
